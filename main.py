@@ -1,3 +1,3 @@
-python 
+python
 print("Bonjour, je suis SamTurf")
-print("Mon objectif est d'analyser les courses hippiques.")
+print("Mon Objectif est d'analyser les courses hippiques.")
