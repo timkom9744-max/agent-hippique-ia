@@ -13,9 +13,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text(
-        f"Tu m'as envoyé : {update.message.text}"
-    )
+    message = update.message.text.upper().strip()
+
+    if len(message) == 4 and message.startswith("R") and "C" in message:
+        await update.message.reply_text(
+            f"🐎 Analyse demandée\n\nRéunion : {message[:2]}\nCourse : {message[2:]}\n\n✅ Demande enregistrée."
+        )
+    else:
+        await update.message.reply_text(
+            "Je n'ai pas compris.\nEnvoie par exemple : R1C4"
+        )
 
 app = Application.builder().token(TOKEN).build()
 
