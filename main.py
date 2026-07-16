@@ -1,2 +1,32 @@
-print("Bonjour, je suis SamTurf")
-print("Mon Objectif est d'analyser les courses hippiques.")
+import os
+from dotenv import load_dotenv
+from telegram import Update
+from telegram.ext import Application, CommandHandler, MessageHandler, ContextTypes, filters
+
+Charge le fichier .env
+load_dotenv()
+
+TOKEN = os.getenv("8834307711: AAFbIMP9pqH9elvAsF5utNVXNLSYDB7g94I")
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "🐎 Bonjour ! Je suis SamTurf.\nEnvoie-moi un lien de course ou une réunion (ex : R1C4)."
+    )
+
+async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        f"Tu m'as envoyé : {update.message.text}"
+    )
+
+def main():
+    app = Application.builder().token(TOKEN).build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+
+    print("🐎 SamTurf est en ligne...")
+
+    app.run_polling()
+
+if _name_ == "_main_":
+    main()
