@@ -29,9 +29,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message.text.upper().strip()
 
-    # Vérifie un format comme R1C4 ou R12C7
     if re.fullmatch(r"R\d+C\d+", message):
-
         parties = message.split("C")
         reunion = parties[0]
         course = "C" + parties[1]
@@ -43,7 +41,6 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "✅ Demande enregistrée.\n"
             "🔎 Préparation de l'analyse..."
         )
-
     else:
         await update.message.reply_text(
             "❌ Je n'ai pas compris.\n\n"
@@ -52,7 +49,6 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 def main():
-
     if not TOKEN:
         print("❌ Erreur : le fichier .env ne contient pas TELEGRAM_TOKEN.")
         return
@@ -71,3 +67,4 @@ def main():
 
 if _name_ == "_main_":
     main()
+`
