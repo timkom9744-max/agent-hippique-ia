@@ -11,6 +11,8 @@ from telegram.ext import (
     filters,
 )
 
+from analyse import analyser_course
+
 load_dotenv()
 
 TOKEN = os.getenv("TELEGRAM_TOKEN")
@@ -28,17 +30,8 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message.text.upper().strip()
 
     if re.fullmatch(r"R\d+C\d+", message):
-        parties = message.split("C")
-        reunion = parties[0]
-        course = "C" + parties[1]
-
-        await update.message.reply_text(
-            "🐎 Analyse demandée\n\n"
-            f"📍 Réunion : {reunion}\n"
-            f"🏇 Course : {course}\n\n"
-            "✅ Demande enregistrée.\n"
-            "🔎 Préparation de l'analyse..."
-        )
+        resultat = analyser_course(message)
+        await update.message.reply_text(resultat)
     else:
         await update.message.reply_text(
             "❌ Je n'ai pas compris.\n\n"
@@ -48,17 +41,15 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     if not TOKEN:
-        print("❌ Erreur : token Telegram absent dans .env")
+        print("Erreur : token Telegram absent dans .env")
         return
 
     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(
-        MessageHandler(filters.TEXT & ~filters.COMMAND, echo)
-    )
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
-    print("🐎 SamTurf v0.3 est en ligne...")
+    print("🐎 SamTurf v0.4 est en ligne...")
 
     app.run_polling()
 
