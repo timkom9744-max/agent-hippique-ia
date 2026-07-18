@@ -11,10 +11,8 @@ from telegram.ext import (
     filters,
 )
 
-Chargement du fichier .env
 load_dotenv()
 
-Récupération du token Telegram
 TOKEN = os.getenv("TELEGRAM_TOKEN")
 
 
@@ -50,7 +48,7 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     if not TOKEN:
-        print("❌ Erreur : le fichier .env ne contient pas TELEGRAM_TOKEN.")
+        print("❌ Erreur : token Telegram absent dans .env")
         return
 
     app = Application.builder().token(TOKEN).build()
@@ -67,4 +65,3 @@ def main():
 
 if _name_ == "_main_":
     main()
-`
