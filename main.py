@@ -1,5 +1,4 @@
 import os
-import re
 
 from dotenv import load_dotenv
 from telegram import Update
@@ -22,21 +21,18 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "🐎 Bonjour ! Je suis SamTurf.\n\n"
         "Je suis prêt à analyser les courses hippiques.\n\n"
-        "Exemple : R1C4"
+        "Tu peux m'envoyer :\n"
+        "- Une référence de course (exemple : R1C4)\n"
+        "- Un lien vers une course."
     )
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    message = update.message.text.upper().strip()
+    message = update.message.text
 
-    if re.fullmatch(r"R\d+C\d+", message):
-        resultat = analyser_course(message)
-        await update.message.reply_text(resultat)
-    else:
-        await update.message.reply_text(
-            "❌ Je n'ai pas compris.\n\n"
-            "Exemple attendu : R1C4"
-        )
+    resultat = analyser_course(message)
+
+    await update.message.reply_text(resultat)
 
 
 def main():
