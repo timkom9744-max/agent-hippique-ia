@@ -1,18 +1,34 @@
+from telechargement import telecharger_page
+
+
 def analyser_course(message):
     message = message.strip()
 
     if message.startswith("http://") or message.startswith("https://"):
+
+        page = telecharger_page(message)
+
+        if page:
+            taille = len(page)
+
+            return (
+                "🌐 Lien détecté.\n\n"
+                "✅ Téléchargement réussi.\n"
+                f"📄 Taille de la page : {taille} caractères."
+            )
+
         return (
-            "🌐 Lien détecté.\n\n"
-            "🔎 Préparation de l'analyse de la course..."
+            "❌ Impossible de télécharger la page."
         )
 
     message = message.upper()
 
     if "C" in message:
+
         parties = message.split("C")
 
         if len(parties) == 2:
+
             reunion = parties[0]
             course = "C" + parties[1]
 
