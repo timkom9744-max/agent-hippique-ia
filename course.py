@@ -1,6 +1,6 @@
 class Course:
 
-    def _init_(self):
+    def __init__(self):
         self.reunion = ""
         self.course = ""
         self.hippodrome = ""
