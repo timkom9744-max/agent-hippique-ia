@@ -8,6 +8,7 @@ from lecture_html import (
     extraire_distance,
     extraire_heure,
     extraire_allocation,
+    extraire_partants,
 )
 
 from url_course import extraire_reunion_course
@@ -30,6 +31,7 @@ def analyser_course(message):
             distance = extraire_distance(page)
             heure = extraire_heure(page)
             allocation = extraire_allocation(page)
+            partants = extraire_partants(page)
 
             resultat = (
                 "🌐 Lien détecté.\n\n"
@@ -39,7 +41,7 @@ def analyser_course(message):
                 f"🏇 Discipline : {discipline}\n"
             )
 
-            # Gestion spécifique du trot
+            # Informations spécifiques au trot
             if discipline == "Trot":
 
                 type_trot = extraire_type_trot(page)
@@ -48,7 +50,6 @@ def analyser_course(message):
                     f"🐴 Type de trot : {type_trot}\n"
                 )
 
-                # Autostart uniquement pour trot attelé
                 if type_trot == "Attelé":
 
                     depart_trot = extraire_depart_trot(page)
@@ -60,14 +61,14 @@ def analyser_course(message):
             resultat += (
                 f"📏 Distance : {distance}\n"
                 f"🕒 Heure : {heure}\n"
-                f"💰 Allocation : {allocation}\n\n"
+                f"💰 Allocation : {allocation}\n"
+                f"🐎 Partants : {partants}\n\n"
                 "✅ Analyse de la page réussie."
             )
 
             return resultat
 
         return "❌ Impossible de télécharger la page."
-
 
     reunion, course = extraire_reunion_course(message)
 
@@ -81,8 +82,40 @@ def analyser_course(message):
             "🔎 Préparation de l'analyse..."
         )
 
-
     return (
         "❌ Je n'ai pas compris.\n\n"
         "Envoie un lien de course ou une référence comme R1C4."
     )
+
+
+Et voici également le code complet de la nouvelle fonction à ajouter à la fin de lecture_html.py :
+
+python
+def extraire_partants(html):
+
+    texte = BeautifulSoup(html, "html.parser").get_text(
+        separator=" ",
+        strip=True
+    )
+
+    # Cas : "Partants : 16"
+    resultat = re.search(
+        r"Partants\s*:?\s*(\d+)",
+        texte,
+        re.IGNORECASE
+    )
+
+    if resultat:
+        return resultat.group(1)
+
+    # Cas : "16 Partants"
+    resultat = re.search(
+        r"(\d+)\s+Partants",
+        texte,
+        re.IGNORECASE
+    )
+
+    if resultat:
+        return resultat.group(1)
+
+    return "Inconnu"
