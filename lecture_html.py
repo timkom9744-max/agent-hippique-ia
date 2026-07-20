@@ -70,3 +70,18 @@ def extraire_distance(html):
         return resultat.group()
 
     return "Inconnue"
+
+
+def extraire_heure(html):
+
+    texte = BeautifulSoup(html, "html.parser").get_text(
+        separator=" ",
+        strip=True
+    )
+
+    resultat = re.search(r"\b\d{1,2}:\d{2}\b", texte)
+
+    if resultat:
+        return resultat.group()
+
+    return "Inconnue"
