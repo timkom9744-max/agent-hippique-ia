@@ -64,7 +64,11 @@ def extraire_distance(html):
         strip=True
     )
 
-    resultat = re.search(r"\b\d{3,4}\s?m\b", texte, re.IGNORECASE)
+    resultat = re.search(
+        r"\b\d{3,4}\s?m\b",
+        texte,
+        re.IGNORECASE
+    )
 
     if resultat:
         return resultat.group()
@@ -79,7 +83,10 @@ def extraire_heure(html):
         strip=True
     )
 
-    resultat = re.search(r"\b\d{1,2}:\d{2}\b", texte)
+    resultat = re.search(
+        r"\b\d{1,2}:\d{2}\b",
+        texte
+    )
 
     if resultat:
         return resultat.group()
@@ -94,12 +101,23 @@ def extraire_allocation(html):
         strip=True
     )
 
+    # Recherche prioritaire : "Allocation : 25 000 €"
+    resultat = re.search(
+        r"Allocation\s*:?\s*([\d\s]+€)",
+        texte,
+        re.IGNORECASE
+    )
+
+    if resultat:
+        return resultat.group(1).strip()
+
+    # Recherche de secours : premier montant en euros
     resultat = re.search(
         r"(\d[\d\s]*\d)\s*€",
         texte
     )
 
     if resultat:
-        return resultat.group()
+        return resultat.group().strip()
 
     return "Inconnue"
