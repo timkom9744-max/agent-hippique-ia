@@ -1,30 +1,25 @@
 from bs4 import BeautifulSoup
 
 
-def lire_infos(html):
+def lire_titre(html):
     soup = BeautifulSoup(html, "html.parser")
 
-    texte = soup.get_text(separator=" ", strip=True)
+    if soup.title:
+        return soup.title.text.strip()
 
-    mots = [
-        "R1",
-        "C1",
-        "C2",
-        "C3",
-        "C4",
-        "C5",
-        "C6",
-        "C7",
-        "C8",
-        "Prix",
-        "Départ",
-        "Partants",
-    ]
+    return ""
 
-    trouves = []
 
-    for mot in mots:
-        if mot in texte:
-            trouves.append(mot)
+def extraire_hippodrome(html):
 
-    return trouves
+    titre = lire_titre(html)
+
+    if not titre:
+        return "Inconnu"
+
+    parties = titre.split(" - ")
+
+    if len(parties) >= 2:
+        return parties[1].strip()
+
+    return "Inconnu"
