@@ -1,3 +1,5 @@
+import re
+
 from bs4 import BeautifulSoup
 
 
@@ -51,5 +53,20 @@ def extraire_discipline(html):
 
     if "plat" in texte:
         return "Plat"
+
+    return "Inconnue"
+
+
+def extraire_distance(html):
+
+    texte = BeautifulSoup(html, "html.parser").get_text(
+        separator=" ",
+        strip=True
+    )
+
+    resultat = re.search(r"\b\d{3,4}\s?m\b", texte, re.IGNORECASE)
+
+    if resultat:
+        return resultat.group()
 
     return "Inconnue"
