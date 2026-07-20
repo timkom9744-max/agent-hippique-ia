@@ -1,5 +1,9 @@
 from telechargement import telecharger_page
-from lecture_html import extraire_hippodrome, extraire_discipline
+from lecture_html import (
+    extraire_hippodrome,
+    extraire_discipline,
+    extraire_distance,
+)
 from url_course import extraire_reunion_course
 
 
@@ -16,13 +20,15 @@ def analyser_course(message):
 
             hippodrome = extraire_hippodrome(page)
             discipline = extraire_discipline(page)
+            distance = extraire_distance(page)
 
             return (
                 "🌐 Lien détecté.\n\n"
                 f"📍 Réunion : {reunion}\n"
                 f"🏇 Course : {course}\n"
                 f"🏟️ Hippodrome : {hippodrome}\n"
-                f"🏇 Discipline : {discipline}\n\n"
+                f"🏇 Discipline : {discipline}\n"
+                f"📏 Distance : {distance}\n\n"
                 "✅ Analyse de la page réussie."
             )
 
