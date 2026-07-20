@@ -1,4 +1,5 @@
 from telechargement import telecharger_page
+
 from lecture_html import (
     extraire_hippodrome,
     extraire_discipline,
@@ -8,6 +9,7 @@ from lecture_html import (
     extraire_heure,
     extraire_allocation,
 )
+
 from url_course import extraire_reunion_course
 
 
@@ -25,8 +27,6 @@ def analyser_course(message):
 
             hippodrome = extraire_hippodrome(page)
             discipline = extraire_discipline(page)
-            type_trot = extraire_type_trot(page)
-            depart_trot = extraire_depart_trot(page)
             distance = extraire_distance(page)
             heure = extraire_heure(page)
             allocation = extraire_allocation(page)
@@ -39,12 +39,20 @@ def analyser_course(message):
                 f"🏇 Discipline : {discipline}\n"
             )
 
+            # Gestion spécifique du trot
             if discipline == "Trot":
+
+                type_trot = extraire_type_trot(page)
+
                 resultat += (
-                    f"🐴 Type : {type_trot}\n"
+                    f"🐴 Type de trot : {type_trot}\n"
                 )
 
+                # Autostart uniquement pour trot attelé
                 if type_trot == "Attelé":
+
+                    depart_trot = extraire_depart_trot(page)
+
                     resultat += (
                         f"🚦 Départ : {depart_trot}\n"
                     )
@@ -60,6 +68,7 @@ def analyser_course(message):
 
         return "❌ Impossible de télécharger la page."
 
+
     reunion, course = extraire_reunion_course(message)
 
     if reunion and course:
@@ -71,6 +80,7 @@ def analyser_course(message):
             "✅ Demande enregistrée.\n"
             "🔎 Préparation de l'analyse..."
         )
+
 
     return (
         "❌ Je n'ai pas compris.\n\n"
