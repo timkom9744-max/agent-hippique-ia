@@ -57,6 +57,46 @@ def extraire_discipline(html):
     return "Inconnue"
 
 
+def extraire_type_trot(html):
+
+    texte = BeautifulSoup(html, "html.parser").get_text(
+        separator=" ",
+        strip=True
+    )
+
+    texte = texte.lower()
+
+    if "attelé" in texte or "attele" in texte:
+        return "Attelé"
+
+    if "monté" in texte or "monte" in texte:
+        return "Monté"
+
+    return "Non applicable"
+
+
+def extraire_depart_trot(html):
+
+    texte = BeautifulSoup(html, "html.parser").get_text(
+        separator=" ",
+        strip=True
+    )
+
+    texte = texte.lower()
+
+    # Seulement pour le trot attelé
+    if "attelé" not in texte and "attele" not in texte:
+        return "Non applicable"
+
+    if "autostart" in texte:
+        return "Autostart"
+
+    if "volté" in texte or "volte" in texte:
+        return "Volté"
+
+    return "Inconnu"
+
+
 def extraire_distance(html):
 
     texte = BeautifulSoup(html, "html.parser").get_text(
