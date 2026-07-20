@@ -1,5 +1,5 @@
 from telechargement import telecharger_page
-from lecture_html import lire_infos
+from lecture_html import extraire_hippodrome
 from url_course import extraire_reunion_course
 
 
@@ -14,22 +14,17 @@ def analyser_course(message):
 
         if page:
 
-            infos = lire_infos(page)
-
-            texte = "\n".join(infos)
+            hippodrome = extraire_hippodrome(page)
 
             return (
                 "🌐 Lien détecté.\n\n"
                 f"📍 Réunion : {reunion}\n"
-                f"🏇 Course : {course}\n\n"
-                "✅ Analyse de la page réussie.\n\n"
-                "📋 Éléments détectés :\n\n"
-                f"{texte}"
+                f"🏇 Course : {course}\n"
+                f"🏟️ Hippodrome : {hippodrome}\n\n"
+                "✅ Analyse de la page réussie."
             )
 
         return "❌ Impossible de télécharger la page."
-
-    message = message.upper()
 
     reunion, course = extraire_reunion_course(message)
 
@@ -45,7 +40,5 @@ def analyser_course(message):
 
     return (
         "❌ Je n'ai pas compris.\n\n"
-        "Envoie par exemple :\n"
-        "R1C4\n\n"
-        "ou un lien vers une course."
+        "Envoie un lien de course ou une référence comme R1C4."
     )
