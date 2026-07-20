@@ -4,6 +4,7 @@ from lecture_html import (
     extraire_discipline,
     extraire_distance,
     extraire_heure,
+    extraire_allocation,
 )
 from url_course import extraire_reunion_course
 
@@ -23,6 +24,7 @@ def analyser_course(message):
             discipline = extraire_discipline(page)
             distance = extraire_distance(page)
             heure = extraire_heure(page)
+            allocation = extraire_allocation(page)
 
             return (
                 "🌐 Lien détecté.\n\n"
@@ -31,7 +33,8 @@ def analyser_course(message):
                 f"🏟️ Hippodrome : {hippodrome}\n"
                 f"🏇 Discipline : {discipline}\n"
                 f"📏 Distance : {distance}\n"
-                f"🕒 Heure : {heure}\n\n"
+                f"🕒 Heure : {heure}\n"
+                f"💰 Allocation : {allocation}\n\n"
                 "✅ Analyse de la page réussie."
             )
 
