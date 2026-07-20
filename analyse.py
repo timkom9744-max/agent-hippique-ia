@@ -2,6 +2,8 @@ from telechargement import telecharger_page
 from lecture_html import (
     extraire_hippodrome,
     extraire_discipline,
+    extraire_type_trot,
+    extraire_depart_trot,
     extraire_distance,
     extraire_heure,
     extraire_allocation,
@@ -10,6 +12,7 @@ from url_course import extraire_reunion_course
 
 
 def analyser_course(message):
+
     message = message.strip()
 
     if message.startswith("http://") or message.startswith("https://"):
@@ -22,21 +25,38 @@ def analyser_course(message):
 
             hippodrome = extraire_hippodrome(page)
             discipline = extraire_discipline(page)
+            type_trot = extraire_type_trot(page)
+            depart_trot = extraire_depart_trot(page)
             distance = extraire_distance(page)
             heure = extraire_heure(page)
             allocation = extraire_allocation(page)
 
-            return (
+            resultat = (
                 "🌐 Lien détecté.\n\n"
                 f"📍 Réunion : {reunion}\n"
                 f"🏇 Course : {course}\n"
                 f"🏟️ Hippodrome : {hippodrome}\n"
                 f"🏇 Discipline : {discipline}\n"
+            )
+
+            if discipline == "Trot":
+                resultat += (
+                    f"🐴 Type : {type_trot}\n"
+                )
+
+                if type_trot == "Attelé":
+                    resultat += (
+                        f"🚦 Départ : {depart_trot}\n"
+                    )
+
+            resultat += (
                 f"📏 Distance : {distance}\n"
                 f"🕒 Heure : {heure}\n"
                 f"💰 Allocation : {allocation}\n\n"
                 "✅ Analyse de la page réussie."
             )
+
+            return resultat
 
         return "❌ Impossible de télécharger la page."
 
