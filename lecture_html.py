@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 
 
 def lire_titre(html):
+
     soup = BeautifulSoup(html, "html.parser")
 
     if soup.title:
@@ -36,7 +37,11 @@ def extraire_discipline(html):
 
     texte = texte.lower()
 
-    if "trot" in texte:
+    # Le trot est identifié par Attelé ou Monté
+    if "attelé" in texte or "attele" in texte:
+        return "Trot"
+
+    if "monté" in texte or "monte" in texte:
         return "Trot"
 
     if "haies" in texte:
@@ -47,9 +52,6 @@ def extraire_discipline(html):
 
     if "cross" in texte:
         return "Cross"
-
-    if "monté" in texte or "monte" in texte:
-        return "Monté"
 
     if "plat" in texte:
         return "Plat"
@@ -124,8 +126,9 @@ def extraire_heure(html):
     )
 
     resultat = re.search(
-        r"\b\d{1,2}:\d{2}\b",
-        texte
+        r"\b\d{1,2}(?:h|:)\d{2}\b",
+        texte,
+        re.IGNORECASE
     )
 
     if resultat:
@@ -141,7 +144,6 @@ def extraire_allocation(html):
         strip=True
     )
 
-    # Recherche prioritaire : "Allocation : 25 000 €"
     resultat = re.search(
         r"Allocation\s*:?\s*([\d\s]+€)",
         texte,
@@ -151,7 +153,6 @@ def extraire_allocation(html):
     if resultat:
         return resultat.group(1).strip()
 
-    # Recherche de secours : premier montant en euros
     resultat = re.search(
         r"(\d[\d\s]*\d)\s*€",
         texte
