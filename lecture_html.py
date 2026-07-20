@@ -23,3 +23,33 @@ def extraire_hippodrome(html):
         return parties[1].strip()
 
     return "Inconnu"
+
+
+def extraire_discipline(html):
+
+    texte = BeautifulSoup(html, "html.parser").get_text(
+        separator=" ",
+        strip=True
+    )
+
+    texte = texte.lower()
+
+    if "trot" in texte:
+        return "Trot"
+
+    if "haies" in texte:
+        return "Haies"
+
+    if "steeple" in texte:
+        return "Steeple-Chase"
+
+    if "cross" in texte:
+        return "Cross"
+
+    if "monté" in texte or "monte" in texte:
+        return "Monté"
+
+    if "plat" in texte:
+        return "Plat"
+
+    return "Inconnue"
