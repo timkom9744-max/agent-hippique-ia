@@ -85,3 +85,21 @@ def extraire_heure(html):
         return resultat.group()
 
     return "Inconnue"
+
+
+def extraire_allocation(html):
+
+    texte = BeautifulSoup(html, "html.parser").get_text(
+        separator=" ",
+        strip=True
+    )
+
+    resultat = re.search(
+        r"(\d[\d\s]*\d)\s*€",
+        texte
+    )
+
+    if resultat:
+        return resultat.group()
+
+    return "Inconnue"
