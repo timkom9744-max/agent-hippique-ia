@@ -30,14 +30,16 @@ def extraire_hippodrome(html):
 
 def extraire_discipline(html):
 
-    texte = BeautifulSoup(html, "html.parser").get_text(
+    texte = BeautifulSoup(
+        html,
+        "html.parser"
+    ).get_text(
         separator=" ",
         strip=True
     )
 
     texte = texte.lower()
 
-    # Le trot est identifié par Attelé ou Monté
     if "attelé" in texte or "attele" in texte:
         return "Trot"
 
@@ -61,7 +63,10 @@ def extraire_discipline(html):
 
 def extraire_type_trot(html):
 
-    texte = BeautifulSoup(html, "html.parser").get_text(
+    texte = BeautifulSoup(
+        html,
+        "html.parser"
+    ).get_text(
         separator=" ",
         strip=True
     )
@@ -79,14 +84,16 @@ def extraire_type_trot(html):
 
 def extraire_depart_trot(html):
 
-    texte = BeautifulSoup(html, "html.parser").get_text(
+    texte = BeautifulSoup(
+        html,
+        "html.parser"
+    ).get_text(
         separator=" ",
         strip=True
     )
 
     texte = texte.lower()
 
-    # Seulement pour le trot attelé
     if "attelé" not in texte and "attele" not in texte:
         return "Non applicable"
 
@@ -101,7 +108,10 @@ def extraire_depart_trot(html):
 
 def extraire_distance(html):
 
-    texte = BeautifulSoup(html, "html.parser").get_text(
+    texte = BeautifulSoup(
+        html,
+        "html.parser"
+    ).get_text(
         separator=" ",
         strip=True
     )
@@ -120,7 +130,10 @@ def extraire_distance(html):
 
 def extraire_heure(html):
 
-    texte = BeautifulSoup(html, "html.parser").get_text(
+    texte = BeautifulSoup(
+        html,
+        "html.parser"
+    ).get_text(
         separator=" ",
         strip=True
     )
@@ -139,7 +152,10 @@ def extraire_heure(html):
 
 def extraire_allocation(html):
 
-    texte = BeautifulSoup(html, "html.parser").get_text(
+    texte = BeautifulSoup(
+        html,
+        "html.parser"
+    ).get_text(
         separator=" ",
         strip=True
     )
@@ -162,3 +178,34 @@ def extraire_allocation(html):
         return resultat.group().strip()
 
     return "Inconnue"
+
+
+def extraire_partants(html):
+
+    texte = BeautifulSoup(
+        html,
+        "html.parser"
+    ).get_text(
+        separator=" ",
+        strip=True
+    )
+
+    resultat = re.search(
+        r"Partants\s*:?\s*(\d+)",
+        texte,
+        re.IGNORECASE
+    )
+
+    if resultat:
+        return resultat.group(1)
+
+    resultat = re.search(
+        r"(\d+)\s+Partants",
+        texte,
+        re.IGNORECASE
+    )
+
+    if resultat:
+        return resultat.group(1)
+
+    return "Inconnu"
