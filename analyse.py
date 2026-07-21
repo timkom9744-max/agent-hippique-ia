@@ -41,7 +41,6 @@ def analyser_course(message):
                 f"🏇 Discipline : {discipline}\n"
             )
 
-            # Informations spécifiques au trot
             if discipline == "Trot":
 
                 type_trot = extraire_type_trot(page)
@@ -86,36 +85,3 @@ def analyser_course(message):
         "❌ Je n'ai pas compris.\n\n"
         "Envoie un lien de course ou une référence comme R1C4."
     )
-
-
-Et voici également le code complet de la nouvelle fonction à ajouter à la fin de lecture_html.py :
-
-python
-def extraire_partants(html):
-
-    texte = BeautifulSoup(html, "html.parser").get_text(
-        separator=" ",
-        strip=True
-    )
-
-    # Cas : "Partants : 16"
-    resultat = re.search(
-        r"Partants\s*:?\s*(\d+)",
-        texte,
-        re.IGNORECASE
-    )
-
-    if resultat:
-        return resultat.group(1)
-
-    # Cas : "16 Partants"
-    resultat = re.search(
-        r"(\d+)\s+Partants",
-        texte,
-        re.IGNORECASE
-    )
-
-    if resultat:
-        return resultat.group(1)
-
-    return "Inconnu"
