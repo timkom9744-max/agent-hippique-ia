@@ -28,6 +28,27 @@ def extraire_hippodrome(html):
     return "Inconnu"
 
 
+def extraire_nom_course(html):
+
+    soup = BeautifulSoup(html, "html.parser")
+
+    if soup.title:
+
+        titre = soup.title.text.strip()
+
+        parties = titre.split(" - ")
+
+        if len(parties) >= 3:
+            return parties[2].strip()
+
+    h1 = soup.find("h1")
+
+    if h1:
+        return h1.get_text(strip=True)
+
+    return "Inconnue"
+
+
 def extraire_discipline(html):
 
     texte = BeautifulSoup(
